@@ -1,5 +1,6 @@
 import 'package:esp_terminal/modals/data_packet.dart';
 import 'package:esp_terminal/ui/pages/page_wrapper.dart';
+import 'package:esp_terminal/ui/panels/chart_panel.dart';
 import 'package:esp_terminal/ui/panels/keypad_panel.dart';
 import 'package:esp_terminal/ui/panels/sliders_panel.dart';
 import 'package:esp_terminal/ui/panels/variables_panel.dart';
@@ -35,6 +36,7 @@ class HomePage extends StatelessWidget {
           editable:
               false, // Keypad buttons are not editable from the home page.
           constraintHeight: true, // Constrain the height of this panel.
+          enableSendMessageButton: false,
           labelledButtons: [
             // Define a row of labelled buttons for common commands.
             [
@@ -69,6 +71,8 @@ class HomePage extends StatelessWidget {
           editable: false, // Sliders are not editable from the home page.
           constraintHeight: false, // Do not constrain the height of this panel.
         ),
+        
+        ChartPanel(id: "home_chart", title: "Chart")
       ],
     );
   }

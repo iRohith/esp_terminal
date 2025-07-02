@@ -88,11 +88,11 @@ class SlidersPanel extends BasePanel<List<(SliderData, DataPacket)>> {
       [
             // Default slider configurations.
             (
-              SliderData(name: "V motor", max: 220),
+              SliderData(name: "V set", max: 220),
               DataPacket(cmd: FLOAT_SEND, id: 0x00),
             ),
             (
-              SliderData(name: "I_m limit", max: 25),
+              SliderData(name: "I set", max: 25),
               DataPacket(cmd: FLOAT_SEND, id: 0x01),
             ),
           ]

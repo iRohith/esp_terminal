@@ -64,12 +64,12 @@ class VariablesPanel extends BasePanel<List<(int, String)>> {
 
     // Load variables from disk, load default if not found in disk
     final varList = await ss.get("variables_$id", <String>[
-      "${0x3};V motor",
-      "${0x4};V ref",
-      "${0x7};Mode",
-      "${0x5};I motor",
-      "${0x6};I_m limit",
-      "${0x8};Fault",
+      "${0x3};V in",
+      "${0x4};V out",
+      "${0x7};I L",
+      "${0x5};Duty",
+      "${0x6};Temp",
+      "${0x8};Pot",
 
       ...List.generate(numExtraVars, (i) => "$i;Var ${7 + i}"),
     ]);

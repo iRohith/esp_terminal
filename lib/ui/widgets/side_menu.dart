@@ -68,29 +68,29 @@ class SideMenu extends StatelessWidget {
             onTap: () => Get.offAllNamed(Routes.home),
           ),
           // Variables navigation list tile.
-          ListTile(
-            title: const Text('Variables'),
-            // Navigate to variables page.
-            onTap: () => Get.offAllNamed(Routes.variables),
-          ),
-          // Keypad navigation list tile.
-          ListTile(
-            title: const Text('Keypad'),
-            // Navigate to keypad page.
-            onTap: () => Get.offAllNamed(Routes.keypad),
-          ),
-          // Charts navigation list tile.
-          ListTile(
-            title: const Text('Charts'),
-            // Navigate to charts page.
-            onTap: () => Get.offAllNamed(Routes.charts),
-          ),
-          // Send file navigation list tile.
-          ListTile(
-            title: const Text('Send file'),
-            // Navigate to send file page.
-            onTap: () => Get.offAllNamed(Routes.sendFile),
-          ),
+          // ListTile(
+          //   title: const Text('Variables'),
+          //   // Navigate to variables page.
+          //   onTap: () => Get.offAllNamed(Routes.variables),
+          // ),
+          // // Keypad navigation list tile.
+          // ListTile(
+          //   title: const Text('Keypad'),
+          //   // Navigate to keypad page.
+          //   onTap: () => Get.offAllNamed(Routes.keypad),
+          // ),
+          // // Charts navigation list tile.
+          // ListTile(
+          //   title: const Text('Charts'),
+          //   // Navigate to charts page.
+          //   onTap: () => Get.offAllNamed(Routes.charts),
+          // ),
+          // // Send file navigation list tile.
+          // ListTile(
+          //   title: const Text('Send file'),
+          //   // Navigate to send file page.
+          //   onTap: () => Get.offAllNamed(Routes.sendFile),
+          // ),
 
           // Divider to visually separate navigation sections.
           const Divider(),

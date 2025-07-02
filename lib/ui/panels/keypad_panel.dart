@@ -78,7 +78,7 @@ class KeypadPanel extends BasePanel<List<(String, DataPacket)>> {
         StorageService.to; // Get the singleton instance of StorageService.
     // Determine the default number of custom keys based on the panel's ID.
     // Panels with "home" in their ID have fewer default keys.
-    final int numKeys = id.contains("home") ? 3 : 8;
+    final int numKeys = id.contains("home") ? 0 : 8;
 
     // Set up a debounced save operation for the `keys` observable.
     // This ensures that changes to the custom keys are saved to disk after a
