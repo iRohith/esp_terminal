@@ -46,14 +46,14 @@ dependencies:
   permission_handler: ^12.0.0+1
   device_info_plus: ^11.5.0
   searchable_listview: ^2.19.0
-  libserialport: ^0.3.0+1
-  flutter_libserialport: ^0.5.0
+#  libserialport: ^0.3.0+1
+#  flutter_libserialport: ^0.5.0
 
-dependency_overrides:
-  libserialport:
-    git:
-      url: https://github.com/vinicioshenriques/libserialport.dart
-      ref: android-support
+#dependency_overrides:
+#  libserialport:
+#    git:
+#      url: https://github.com/vinicioshenriques/libserialport.dart
+#      ref: android-support
 #  # because of https://github.com/jpnurmi/flutter_libserialport/issues/128
 #  flutter_libserialport:
 #    git:

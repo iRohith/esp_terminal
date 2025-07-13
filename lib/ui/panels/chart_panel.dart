@@ -26,7 +26,11 @@ class ChartPanel extends BasePanel<ChartData> {
   /// This `Rx<ChartData>` object from GetX makes the chart's properties reactive,
   /// so any changes to `name`, `minY`, `maxY`, `maxDuration`, `updateInterval`,
   /// or `variables` will automatically trigger a rebuild of the chart UI.
-  final chartData = ChartData(name: "Chart 1", variables: []).obs;
+  final chartData = ChartData(name: "Chart 1", variables: [
+    ChartVariable(0x3, "V in", COLORS_PALETTE[0]),
+    ChartVariable(0x4, "V out", COLORS_PALETTE[1]),
+    ChartVariable(0x4, "I L", COLORS_PALETTE[2]),
+  ]).obs;
 
   /// Buffer to store data points for each variable.
   ///

@@ -4,7 +4,7 @@ import 'package:esp_terminal/connectors/ble_connector.dart';
 import 'package:esp_terminal/connectors/bt_connector.dart';
 import 'package:esp_terminal/connectors/none_connector.dart';
 import 'package:esp_terminal/connectors/test_connector.dart';
-import 'package:esp_terminal/connectors/usb_connector.dart';
+// import 'package:esp_terminal/connectors/usb_connector.dart';
 import 'package:esp_terminal/connectors/ws_cloud_connector.dart';
 import 'package:esp_terminal/connectors/ws_local_connector.dart';
 import 'package:esp_terminal/services/connection_service.dart';
@@ -45,7 +45,7 @@ void initServices() {
       // Bluetooth Low Energy connector
       if (!kIsWeb && Platform.isAndroid) "BT Classic": () => BTConnector(),
       // Bluetooth Classic (Android only)
-      "USB": () => UsbConnector(),
+      // "USB": () => UsbConnector(),
       // USB serial connector
       "WS Local": () => WSLocalConnector(),
       // WebSocket local network connector
