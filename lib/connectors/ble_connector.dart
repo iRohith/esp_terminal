@@ -16,13 +16,14 @@ import 'package:universal_ble/universal_ble.dart';
 /// disconnecting, and data transfer using the `universal_ble` plugin.
 class BleConnector extends BaseConnector {
   /// Service UUID for the BLE device.
-  static final suuid = ("0000ffe0-0000-1000-8000-00805f9b34f0");
+  // static final suuid = ("0000ffe0-0000-1000-8000-00805f9b34f0");
 
   /// Write Characteristic UUID for sending data to the BLE device.
-  static final wcuuid = ("0000ffe1-0000-1000-8000-00805f9b34f0");
+  // static final wcuuid = ("0000ffe1-0000-1000-8000-00805f9b34f0");
 
   /// Read Characteristic UUID for receiving data from the BLE device.
-  static final rcuuid = ("0000ffe1-0000-1000-8000-00805f9b34f0");
+  // static final rcuuid = ("0000ffe1-0000-1000-8000-00805f9b34f0");
+  var services = <String, List<String>>{};
 
   /// The currently connected BLE device. Null if no device is connected.
   BleDevice? connectedDevice;
@@ -159,11 +160,23 @@ class BleConnector extends BaseConnector {
                   if (isConnected) {
                     // If connected, discover services, request MTU, and subscribe to notifications.
                     final services = await UniversalBle.discoverServices(d);
-
+                    this.services.clear();
                     for (final s in services){
+                      this.services[s.uuid] = [];
                       printInfo(info: "service: ${s.uuid}");
                       for (final c in s.characteristics){
+                        this.services[s.uuid]!.add(c.uuid);
                         printInfo(info: "charac: ${c.uuid}");
+
+                        try {
+                          await UniversalBle.subscribeNotifications(
+                            deviceId,
+                            s.uuid, // Service UUID.
+                            c.uuid, // Read Characteristic UUID.
+                          );
+                        } catch (e){
+                          printError(info: "Failed subscribe to ${s.uuid}, ${c.uuid}. $e");
+                        }
                       }
                     }
 
@@ -171,11 +184,11 @@ class BleConnector extends BaseConnector {
                       d,
                       512,
                     ); // Request a larger MTU for data transfer.
-                    await UniversalBle.subscribeNotifications(
-                      deviceId,
-                      suuid, // Service UUID.
-                      rcuuid, // Read Characteristic UUID.
-                    );
+                    // await UniversalBle.subscribeNotifications(
+                    //   deviceId,
+                    //   suuid, // Service UUID.
+                    //   rcuuid, // Read Characteristic UUID.
+                    // );
                     connectedDevice =
                         deviceMap[d]!; // Store the connected device.
                     printInfo(info: "Connected: $d");
@@ -240,8 +253,8 @@ class BleConnector extends BaseConnector {
         (String deviceId, String characteristicId, Uint8List value) async {
           try {
             // Ensure the data is from the connected device and the correct read characteristic.
-            if (deviceId == connectedDevice?.deviceId &&
-                characteristicId.toLowerCase() == rcuuid.toLowerCase()) {
+            if (deviceId == connectedDevice?.deviceId){// &&
+                // characteristicId.toLowerCase() == rcuuid.toLowerCase()) {
               // Add each byte from the received value to the stream.
               for (final b in value) {
                 s.add(b);
@@ -270,7 +283,16 @@ class BleConnector extends BaseConnector {
   Future<int> write(Uint8List buffer) async {
     try {
       // Write the buffer to the specified characteristic of the connected device.
-      UniversalBle.write(connectedDevice!.deviceId, suuid, wcuuid, buffer);
+      // UniversalBle.write(connectedDevice!.deviceId, suuid, wcuuid, buffer);
+      services.forEach((s, chars){
+        for (final c in chars){
+          try {
+            UniversalBle.write(connectedDevice!.deviceId, s, c, buffer);
+          } catch (e){
+            printError(info: "Failed sent with $s, $c");
+          }
+        }
+      });
       return buffer.length; // Return the number of bytes written.
     } catch (e, st) {
       printError(
