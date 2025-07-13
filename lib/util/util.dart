@@ -157,7 +157,8 @@ StreamTransformer<int, DataPacket> dataPacketTransformer() {
       // Check if we are currently processing a known command packet.
       if (cmds.contains(cmd)) {
         // Special handling for message packets (MSG_RECV).
-        if (cmd == MSG_RECV && msgBuf != null) {
+        // Skip msg_recv logic
+        if (false && cmd == MSG_RECV && msgBuf != null) {
           // If the message buffer is not full, add the current byte.
           if (i < msgBuf!.length) {
             msgBuf![i++] = data;
@@ -177,9 +178,9 @@ StreamTransformer<int, DataPacket> dataPacketTransformer() {
             }
           }
         }
-        // Bypass and use upto 6 bytes for now
+        // Bypass and use upto fixed bytes for now
         // Check for the packet end marker (0xFF 0xFF).
-        else if (i == 6 || data == 0xFF && lastByte == 0xFF) {
+        else if (i == PACKET_SIZE || data == 0xFF && lastByte == 0xFF) {
           // If the end marker is found, parse the buffered bytes into a DataPacket.
           final dp = DataPacket.fromBuffer(buffer);
           // Add the parsed DataPacket to the output stream.
