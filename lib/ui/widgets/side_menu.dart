@@ -22,7 +22,7 @@ class SideMenu extends StatelessWidget {
         children: [
           // SizedBox to control the height of the DrawerHeader.
           SizedBox(
-            height: 180,
+            height: 200,
             // Header for the side menu, displaying app title and connection stats.
             child: DrawerHeader(
               decoration: BoxDecoration(
@@ -48,7 +48,7 @@ class SideMenu extends StatelessWidget {
                           "Speed: ${ds.speed.value.toStringAsFixed(2)} KB/s",
                         ),
                         // Display data latency.
-                        Text("Latency: ${ds.latency.value.round()} ms"),
+                        // Text("Latency: ${ds.latency.value.round()} ms"),
                         // Display variables per second.
                         Text(
                           "Vars: ${ds.varsPerSecond.value.toStringAsFixed(2)} /s",

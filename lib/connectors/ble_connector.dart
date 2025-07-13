@@ -16,13 +16,13 @@ import 'package:universal_ble/universal_ble.dart';
 /// disconnecting, and data transfer using the `universal_ble` plugin.
 class BleConnector extends BaseConnector {
   /// Service UUID for the BLE device.
-  static final suuid = ("6db99c15-8890-4fa8-8138-2a1a55deebbf");
+  static final suuid = ("0000ffe0-0000-1000-8000-00805f9b34f0");
 
   /// Write Characteristic UUID for sending data to the BLE device.
-  static final wcuuid = ("c389bbb2-c68e-4a4e-8f62-8e0f0fa7e4c6");
+  static final wcuuid = ("0000ffe1-0000-1000-8000-00805f9b34f0");
 
   /// Read Characteristic UUID for receiving data from the BLE device.
-  static final rcuuid = ("95e8186c-6ed1-42e8-a1e2-22dfa4c11f68");
+  static final rcuuid = ("0000ffe1-0000-1000-8000-00805f9b34f0");
 
   /// The currently connected BLE device. Null if no device is connected.
   BleDevice? connectedDevice;
@@ -111,7 +111,7 @@ class BleConnector extends BaseConnector {
 
     // Get already paired/system devices that advertise the service UUID.
     for (final d in await UniversalBle.getSystemDevices(
-      withServices: [suuid],
+      withServices: [],
     )) {
       // Add device to the list, using "Unknown" if the name is empty.
       devices.add(((d.name ?? "").isEmpty ? "Unknown" : d.name!, d.deviceId));
@@ -158,7 +158,15 @@ class BleConnector extends BaseConnector {
                     .onConnectionChange = (deviceId, isConnected, error) async {
                   if (isConnected) {
                     // If connected, discover services, request MTU, and subscribe to notifications.
-                    await UniversalBle.discoverServices(d);
+                    final services = await UniversalBle.discoverServices(d);
+
+                    for (final s in services){
+                      printInfo(info: "service: ${s.uuid}");
+                      for (final c in s.characteristics){
+                        printInfo(info: "charac: ${c.uuid}");
+                      }
+                    }
+
                     UniversalBle.requestMtu(
                       d,
                       512,
@@ -238,6 +246,8 @@ class BleConnector extends BaseConnector {
               for (final b in value) {
                 s.add(b);
               }
+            } else {
+              printInfo(info: "Ble read unknown: $deviceId; $characteristicId; ${value.length}");
             }
           } catch (e, st) {
             s.add(-1); // Add an error indicator to the stream.

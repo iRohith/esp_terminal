@@ -195,49 +195,28 @@ class ConnectionService extends GetxService {
   void onInit() {
     super.onInit();
 
-    // final speed = dataService.speed;
-    // final latency = dataService.latency;
-    // final varsPerSecond = dataService.varsPerSecond;
-    //
-    // int vars = 0; // Counter for variables received.
-    // int lastPingMs = 0, lastUpdateMs = 0; // Timestamps for calculations.
-    // final pings = <double>[]; // List to store recent ping times.
-    //
-    // final stopwatch = Stopwatch()..start(); // Stopwatch for elapsed time.
-    //
-    // // Listen for changes in the current data packet.
-    // ever(dataService.currentPacket, (dp) {
-    //   final ms = stopwatch.elapsedMilliseconds;
-    //
-    //   if (dp.cmd == FLOAT_RECV) {
-    //     vars += 1; // Increment variable counter for float data.
-    //   }
-    //   else if (dp.cmd == PING) {
-    //     pings.add(0.5 * (ms - lastPingMs)); // Calculate half round-trip time.
-    //
-    //     if (pings.length >= 5) {
-    //       latency.value =
-    //           pings.reduce((a, b) => a + b) / pings.length; // Average latency.
-    //       pings.clear(); // Clear samples for next calculation.
-    //     }
-    //   }
-    // });
-    //
-    // // Periodic timer to send pings and update statistics.
-    // Timer.periodic(const Duration(milliseconds: 1000), (_) async {
-    //   await writeDataPacket(DataPacket(cmd: PING, id: 0)); // Send ping packet.
-    //   lastPingMs = stopwatch.elapsedMilliseconds; // Record ping time.
-    //
-    //   final s =
-    //       1000.0 / (lastPingMs - lastUpdateMs); // Calculate updates per second.
-    //   varsPerSecond.value = vars * s; // Calculate variables per second.
-    //   speed.value =
-    //       s * numBytesReceived / 1024; // Calculate data transfer speed in KB/s.
-    //
-    //   numBytesReceived = 0; // Reset byte counter.
-    //   vars = 0; // Reset variable counter.
-    //   lastUpdateMs = lastPingMs; // Update last update timestamp.
-    // });
+    final speed = dataService.speed;
+    final varsPerSecond = dataService.varsPerSecond;
+
+    int vars = 0; // Counter for variables received.
+
+    // Listen for changes in the current data packet.
+    ever(dataService.currentPacket, (dp) {
+      if (dp.cmd == FLOAT_RECV) {
+        vars += 1; // Increment variable counter for float data.
+      }
+    });
+
+    // Periodic timer to send pings and update statistics.
+    Timer.periodic(const Duration(milliseconds: 1000), (_) async {
+      final s = 1.0; // 1000.0;
+      varsPerSecond.value = vars * s; // Calculate variables per second.
+      speed.value =
+          s * numBytesReceived / 1024; // Calculate data transfer speed in KB/s.
+
+      numBytesReceived = 0; // Reset byte counter.
+      vars = 0;
+    });
 
     _connectionTypeWorker?.dispose(); // Dispose previous worker.
     // Listen for connection type changes.
