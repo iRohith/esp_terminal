@@ -51,7 +51,7 @@ const MAX_LOG_LINES = 100;
 const MAX_PANEL_HEIGHT = 250;
 
 /// The standard size of a data packet in bytes.
-const PACKET_SIZE = 8;
+const PACKET_SIZE = 6;
 
 /// A predefined palette of colors used for charting and visualization.
 const List<Color> COLORS_PALETTE = [

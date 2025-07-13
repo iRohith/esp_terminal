@@ -177,8 +177,9 @@ StreamTransformer<int, DataPacket> dataPacketTransformer() {
             }
           }
         }
+        // Bypass and use upto 6 bytes for now
         // Check for the packet end marker (0xFF 0xFF).
-        else if (data == 0xFF && lastByte == 0xFF) {
+        else if (i == 6 || data == 0xFF && lastByte == 0xFF) {
           // If the end marker is found, parse the buffered bytes into a DataPacket.
           final dp = DataPacket.fromBuffer(buffer);
           // Add the parsed DataPacket to the output stream.
